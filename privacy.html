@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="bn" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,108 +9,163 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Hind Siliguri"', 'sans-serif'],
+          },
+          colors: {
+            app: {
+              brand: '#0C877F',
+              brandDark: '#07505C',
+              tealLight: '#138F88',
+              tealAccent: '#38D9C0',
+              bgLight: '#F8FBFA',
+              bgDark: '#0B1310',
+              cardDark: '#12221B',
+              borderDark: '#1B352A',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
     body { font-family: 'Hind Siliguri', sans-serif; }
+    .transition-theme { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
   </style>
 </head>
-<body class="bg-[#F8FAF9] text-gray-800 antialiased selection:bg-emerald-600 selection:text-white">
+<body class="bg-app-bgLight dark:bg-app-bgDark text-gray-800 dark:text-[#E2EFE9] transition-theme antialiased selection:bg-[#0C877F] selection:text-white">
 
   <!-- Header -->
-  <header class="bg-white border-b border-gray-100 shadow-sm sticky top-0 z-50">
-    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3">
-        <img src="images/icon.png" alt="ব্যাকরণবাজ" class="w-10 h-10 rounded-lg shadow-sm">
-        <span class="text-xl font-bold text-gray-900">ব্যাকরণবাজ</span>
+  <header class="bg-white/90 dark:bg-[#0E1A14]/90 backdrop-blur-md border-b border-gray-200/80 dark:border-app-borderDark sticky top-0 z-50 transition-theme shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 h-18 py-3 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <img src="images/icon.png" alt="ব্যাকরণবাজ" class="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform">
+        <div class="leading-tight">
+          <span class="text-xl font-bold tracking-tight text-[#123B49] dark:text-[#F0FAF6] block">
+            <span data-i18n="brand_prefix">ব্যাকরণ</span><span class="text-[#0C877F] dark:text-[#38D9C0]" data-i18n="brand_suffix">বাজ</span>
+          </span>
+          <span class="text-[10px] font-medium text-[#617B80] dark:text-[#8AA69C]" data-i18n="tagline">
+            বাংলা ব্যাকরণ কুইজ • ৬ষ্ঠ–১০ম
+          </span>
+        </div>
       </a>
-      <a href="index.html" class="text-sm font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1">
-        ← হোম পেজে ফিরে যান
-      </a>
+
+      <!-- Controls -->
+      <div class="flex items-center gap-2.5">
+        
+        <!-- Language Switcher -->
+        <button id="langToggleBtn" onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border border-gray-200 dark:border-app-borderDark bg-white dark:bg-app-cardDark text-gray-700 dark:text-gray-200 hover:border-[#0C877F] dark:hover:border-[#38D9C0] hover:text-[#0C877F] dark:hover:text-[#38D9C0] transition-all shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          <span id="langText">EN</span>
+        </button>
+
+        <!-- Theme Switcher -->
+        <button id="themeToggleBtn" onclick="toggleTheme()" aria-label="Toggle Theme" class="p-2 rounded-full border border-gray-200 dark:border-app-borderDark bg-white dark:bg-app-cardDark text-gray-700 dark:text-amber-300 hover:text-[#0C877F] dark:hover:text-amber-400 transition-all shadow-sm">
+          <svg id="sunIcon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/></svg>
+          <svg id="moonIcon" class="w-4 h-4 block" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        </button>
+
+        <!-- Back to Home with Rounded Hover Pill -->
+        <a href="index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#0C877F] dark:text-[#38D9C0] hover:bg-emerald-50 dark:hover:bg-app-cardDark transition-all flex items-center gap-1" data-i18n="back_home">
+          ← হোম পেজ
+        </a>
+
+      </div>
     </div>
   </header>
 
   <!-- Content Container -->
   <main class="max-w-4xl mx-auto px-4 py-12">
-    <div class="bg-white p-6 sm:p-12 rounded-3xl shadow-sm border border-gray-200/80">
+    <div class="bg-white dark:bg-app-cardDark p-6 sm:p-12 rounded-3xl shadow-sm border border-gray-200/80 dark:border-app-borderDark transition-theme">
       
-      <div class="border-b border-gray-100 pb-6 mb-8">
-        <div class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold uppercase tracking-wider mb-2">
+      <div class="border-b border-gray-100 dark:border-app-borderDark pb-6 mb-8">
+        <div class="inline-block px-3.5 py-1 rounded-full bg-emerald-50 dark:bg-[#15291F] text-[#0C877F] dark:text-[#38D9C0] text-xs font-bold uppercase tracking-wider mb-2" data-i18n="badge_policy">
           অফিসিয়াল প্রাইভেসি পলিসি
         </div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">গোপনীয়তা নীতি (Privacy Policy)</h1>
-        <p class="text-sm text-gray-500 mt-2">সর্বশেষ পরিমার্জন: ২১ নভেম্বর, ২০২৬</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white" data-i18n="title_policy">গোপনীয়তা নীতি (Privacy Policy)</h1>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2" data-i18n="last_updated">সর্বশেষ পরিমার্জন: ২১ নভেম্বর, ২০২৬</p>
       </div>
 
-      <div class="space-y-8 text-gray-700 leading-relaxed text-base">
+      <div class="space-y-8 text-gray-700 dark:text-gray-300 leading-relaxed text-base">
         
         <section>
-          <p>
+          <p data-i18n="sec_intro">
             <strong>ব্যাকরণবাজ (ByakaranBaz)</strong> অ্যাপে স্বাগতম। এই অ্যাপটি সম্পূর্ণ অফলাইন শিক্ষামূলক বাংলা ব্যাকরণ কুইজ অ্যাপ্লিকেশন যা ৬ষ্ঠ থেকে ১০ম শ্রেণির শিক্ষার্থীদের জন্য তৈরি। আপনার এবং আপনার পরিবারের ব্যক্তিগত তথ্যের গোপনীয়তা রক্ষা করা আমাদের সর্বোচ্চ অগ্রাধিকার।
           </p>
         </section>
 
-        <section class="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-100">
-          <h2 class="text-lg font-bold text-emerald-900 mb-2 flex items-center gap-2">
-            <span>🛡️</span> সংক্ষেপে আমাদের মূল অঙ্গীকার:
+        <!-- Key Commitments Box -->
+        <section class="bg-emerald-50/70 dark:bg-[#14261D] p-6 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+          <h2 class="text-lg font-bold text-emerald-900 dark:text-emerald-200 mb-3 flex items-center gap-2">
+            <span>🛡️</span> <span data-i18n="box_title">সংক্ষেপে আমাদের মূল অঙ্গীকার:</span>
           </h2>
-          <ul class="list-disc list-inside space-y-1.5 text-emerald-800 text-sm">
-            <li>অ্যাপটি ব্যবহারের জন্য কোনো একাউন্ট বা রেজিস্ট্রেশনের প্রয়োজন নেই।</li>
-            <li>আমরা ব্যবহারকারীর কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল, মোবাইল নম্বর, অবস্থান) সংগ্রহ করি না।</li>
-            <li>অ্যাপটিতে কোনো তৃতীয় পক্ষের ট্র্যাকার বা বিজ্ঞাপন (Ads) নেই।</li>
-            <li>অ্যাপটি সম্পূর্ণ অফলাইনে কাজ করে।</li>
+          <ul class="list-disc list-inside space-y-1.5 text-emerald-800 dark:text-emerald-300 text-sm">
+            <li data-i18n="box_1">অ্যাপটি ব্যবহারের জন্য কোনো অ্যাকাউন্ট বা রেজিস্ট্রেশনের প্রয়োজন নেই।</li>
+            <li data-i18n="box_2">আমরা ব্যবহারকারীর কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল, মোবাইল নম্বর, অবস্থান) সংগ্রহ করি না।</li>
+            <li data-i18n="box_3">অ্যাপটিতে কোনো তৃতীয় পক্ষের ট্র্যাকার বা বিজ্ঞাপন (Ads) নেই।</li>
+            <li data-i18n="box_4">অ্যাপটি সম্পূর্ণ অফলাইনে কাজ করে।</li>
           </ul>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">১. তথ্য সংগ্রহ ও ব্যবহার (Information Collection and Use)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_1">১. তথ্য সংগ্রহ ও ব্যবহার (Information Collection and Use)</h2>
+          <p data-i18n="p_1">
             ব্যাকরণবাজ অ্যাপটি ব্যবহার করার সময় আপনার কোনো ব্যক্তিগত তথ্য প্রদানের প্রয়োজন হয় না। অ্যাপটি পরিচালনার জন্য ব্যবহারকারীর ব্যক্তিগত শনাক্তকরণযোগ্য কোনো তথ্য কোনো সার্ভারে পাঠানো হয় না বা সংরক্ষণ করা হয় না।
           </p>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">২. স্থানীয় ডেটা সংরক্ষণ (Local Data Storage)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_2">২. স্থানীয় ডেটা সংরক্ষণ (Local Data Storage)</h2>
+          <p data-i18n="p_2">
             অ্যাপটি আপনার পছন্দের থিম (লাইট বা ডার্ক মোড), সাউন্ড/ভাইব্রেশন সেটিংস এবং কুইজের অগ্রগতি (স্কোর) আপনার ডিভাইসের নিজস্ব স্টোরেজে (Local Device Storage) সংরক্ষণ করে। এই তথ্যগুলো কেবল আপনার ফোনের অ্যাপের মধ্যেই সীমাবদ্ধ থাকে এবং কোনো বাহ্যিক সার্ভার বা তৃতীয় পক্ষের কাছে কখনোই স্থানান্তরিত হয় না। আপনি চাইলে যেকোনো সময় অ্যাপের সেটিংস থেকে এই তথ্যগুলো মুছে ফেলতে পারেন।
           </p>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">৩. শিশুদের গোপনীয়তা (Children's Privacy / COPPA)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_3">৩. শিশুদের গোপনীয়তা (Children's Privacy / COPPA)</h2>
+          <p data-i18n="p_3">
             আমাদের অ্যাপটি শিশু-কিশোর ও শিক্ষার্থীদের ব্যবহারের জন্য সম্পূর্ণ নিরাপদ। আমরা জেনেশুনে ১৩ বছরের কম বয়সী শিশুদের কাছ থেকে কোনো ব্যক্তিগত তথ্য সংগ্রহ করি না। পিতামাতা ও অভিভাবকরা নিশ্চিন্তে তাদের সন্তানদের এই অ্যাপটি ব্যবহার করতে দিতে পারেন।
           </p>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">৪. বিজ্ঞাপন ও ট্র্যাকিং (Advertisements and Tracking)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_4">৪. বিজ্ঞাপন ও ট্র্যাকিং (Advertisements and Tracking)</h2>
+          <p data-i18n="p_4">
             ব্যাকরণবাজ সম্পূর্ণ বিজ্ঞাপনমুক্ত (Ad-free)। অ্যাপের মধ্যে কোনো বাণিজ্যিক ব্যানার, ভিডিও বিজ্ঞাপন বা ব্যবহারকারীর আচরণ ট্র্যাক করার কোনো অ্যানালিটিক্স টুল ব্যবহার করা হয় না।
           </p>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">৫. ডিভাইসের অনুমতি (Device Permissions)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_5">৫. ডিভাইসের অনুমতি (Device Permissions)</h2>
+          <p data-i18n="p_5">
             অ্যাপটির সঠিক কার্যক্রমের জন্য কোনো অপ্রয়োজনীয় বা সংবেদনশীল অনুমতির প্রয়োজন হয় না (যেমন: ক্যামেরা, মাইক্রোফোন, কন্টাক্টস বা লোকেশন পারমিশন লাগে না)। শুধুমাত্র কুইজের অপশন টাচ করার সময় হালকা ফিডব্যাকের জন্য ভাইব্রেশন পারমিশন ব্যবহৃত হয়।
           </p>
         </section>
 
         <section>
-          <h2 class="text-xl font-bold text-gray-900 mb-3">৬. পলিসি পরিবর্তন (Changes to This Privacy Policy)</h2>
-          <p>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_6">৬. পলিসি পরিবর্তন (Changes to This Privacy Policy)</h2>
+          <p data-i18n="p_6">
             ভবিষ্যতে অ্যাপে নতুন কোনো ফিচার যুক্ত হলে প্রয়োজনে আমাদের গোপনীয়তা নীতি হালনাগাদ করা হতে পারে। যেকোনো পরিবর্তন এই পৃষ্ঠাতেই প্রকাশ করা হবে।
           </p>
         </section>
 
-        <section class="border-t border-gray-100 pt-6">
-          <h2 class="text-xl font-bold text-gray-900 mb-3">৭. যোগাযোগ (Contact Us)</h2>
-          <p>
+        <!-- Official Contact with byakaranbaz@gmail.com -->
+        <section class="border-t border-gray-100 dark:border-app-borderDark pt-6">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3" data-i18n="h_7">৭. যোগাযোগ (Contact Us)</h2>
+          <p data-i18n="p_7">
             আমাদের এই প্রাইভেসি পলিসি সম্পর্কে আপনার কোনো প্রশ্ন বা পরামর্শ থাকলে নির্দ্বিধায় যোগাযোগ করতে পারেন:
           </p>
-          <div class="mt-3 p-4 bg-gray-50 rounded-xl text-sm space-y-1">
-            <p><strong>ডেভেলপার:</strong> Easin Ali</p>
-            <p><strong>ইমেইল:</strong> <a href="mailto:easinali@gmail.com" class="text-emerald-700 font-semibold hover:underline">easinali@gmail.com</a></p>
-            <p><strong>অ্যাপ:</strong> ব্যাকরণবাজ (ByakaranBaz)</p>
+          <div class="mt-4 p-5 bg-gray-50 dark:bg-[#162B21] rounded-2xl border border-gray-200 dark:border-app-borderDark text-sm space-y-1.5">
+            <p><strong data-i18n="f_app">অ্যাপ:</strong> ব্যাকরণবাজ (ByakaranBaz)</p>
+            <p><strong data-i18n="f_dev">ডেভেলপার:</strong> Easin Ali</p>
+            <p><strong data-i18n="f_email">অফিসিয়াল ইমেইল:</strong> <a href="mailto:byakaranbaz@gmail.com" class="text-[#0C877F] dark:text-[#38D9C0] font-bold font-mono hover:underline">byakaranbaz@gmail.com</a></p>
           </div>
         </section>
 
@@ -120,9 +175,128 @@
   </main>
 
   <!-- Footer -->
-  <footer class="text-center py-8 text-xs text-gray-500 border-t border-gray-200">
-    <p>© 2026 Easin Ali. সর্বস্বত্ব সংরক্ষিত।</p>
+  <footer class="text-center py-8 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-800">
+    <p>© 2026 Easin Ali. <span data-i18n="copy_rights">সর্বস্বত্ব সংরক্ষিত।</span></p>
   </footer>
+
+  <!-- Scripts for Theme & Language Toggle -->
+  <script>
+    const privacyTranslations = {
+      bn: {
+        brand_prefix: "ব্যাকরণ",
+        brand_suffix: "বাজ",
+        tagline: "বাংলা ব্যাকরণ কুইজ • ৬ষ্ঠ–১০ম",
+        back_home: "← হোম পেজ",
+        badge_policy: "অফিসিয়াল প্রাইভেসি পলিসি",
+        title_policy: "গোপনীয়তা নীতি (Privacy Policy)",
+        last_updated: "সর্বশেষ পরিমার্জন: ২১ নভেম্বর, ২০২৬",
+        sec_intro: "ব্যাকরণবাজ (ByakaranBaz) অ্যাপে স্বাগতম। এই অ্যাপটি সম্পূর্ণ অফলাইন শিক্ষামূলক বাংলা ব্যাকরণ কুইজ অ্যাপ্লিকেশন যা ৬ষ্ঠ থেকে ১০ম শ্রেণির শিক্ষার্থীদের জন্য তৈরি। আপনার এবং আপনার পরিবারের ব্যক্তিগত তথ্যের গোপনীয়তা রক্ষা করা আমাদের সর্বোচ্চ অগ্রাধিকার।",
+        box_title: "সংক্ষেপে আমাদের মূল অঙ্গীকার:",
+        box_1: "অ্যাপটি ব্যবহারের জন্য কোনো অ্যাকাউন্ট বা রেজিস্ট্রেশনের প্রয়োজন নেই।",
+        box_2: "আমরা ব্যবহারকারীর কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল, মোবাইল নম্বর, অবস্থান) সংগ্রহ করি না।",
+        box_3: "অ্যাপটিতে কোনো তৃতীয় পক্ষের ট্র্যাকার বা বিজ্ঞাপন (Ads) নেই।",
+        box_4: "অ্যাপটি সম্পূর্ণ অফলাইনে কাজ করে।",
+        h_1: "১. তথ্য সংগ্রহ ও ব্যবহার (Information Collection and Use)",
+        p_1: "ব্যাকরণবাজ অ্যাপটি ব্যবহার করার সময় আপনার কোনো ব্যক্তিগত তথ্য প্রদানের প্রয়োজন হয় না। অ্যাপটি পরিচালনার জন্য ব্যবহারকারীর ব্যক্তিগত শনাক্তকরণযোগ্য কোনো তথ্য কোনো সার্ভারে পাঠানো হয় না বা সংরক্ষণ করা হয় না।",
+        h_2: "২. স্থানীয় ডেটা সংরক্ষণ (Local Data Storage)",
+        p_2: "অ্যাপটি আপনার পছন্দের থিম (লাইট বা ডার্ক মোড), সাউন্ড/ভাইব্রেশন সেটিংস এবং কুইজের অগ্রগতি (স্কোর) আপনার ডিভাইসের নিজস্ব স্টোরেজে (Local Device Storage) সংরক্ষণ করে। এই তথ্যগুলো কেবল আপনার ফোনের অ্যাপের মধ্যেই সীমাবদ্ধ থাকে এবং কোনো বাহ্যিক সার্ভার বা তৃতীয় পক্ষের কাছে কখনোই স্থানান্তরিত হয় না।",
+        h_3: "৩. শিশুদের গোপনীয়তা (Children's Privacy / COPPA)",
+        p_3: "আমাদের অ্যাপটি শিশু-কিশোর ও শিক্ষার্থীদের ব্যবহারের জন্য সম্পূর্ণ নিরাপদ। আমরা জেনেশুনে ১৩ বছরের কম বয়সী শিশুদের কাছ থেকে কোনো ব্যক্তিগত তথ্য সংগ্রহ করি না। পিতামাতা ও অভিভাবকরা নিশ্চিন্তে তাদের সন্তানদের এই অ্যাপটি ব্যবহার করতে দিতে পারেন।",
+        h_4: "৪. বিজ্ঞাপন ও ট্র্যাকিং (Advertisements and Tracking)",
+        p_4: "ব্যাকরণবাজ সম্পূর্ণ বিজ্ঞাপনমুক্ত (Ad-free)। অ্যাপের মধ্যে কোনো বাণিজ্যিক ব্যানার, ভিডিও বিজ্ঞাপন বা ব্যবহারকারীর আচরণ ট্র্যাক করার কোনো অ্যানালিটিক্স টুল ব্যবহার করা হয় না।",
+        h_5: "৫. ডিভাইসের অনুমতি (Device Permissions)",
+        p_5: "অ্যাপটির সঠিক কার্যক্রমের জন্য কোনো অপ্রয়োজনীয় বা সংবেদনশীল অনুমতির প্রয়োজন হয় না। শুধুমাত্র কুইজের অপশন টাচ করার সময় হালকা ফিডব্যাকের জন্য ভাইব্রেশন পারমিশন ব্যবহৃত হয়।",
+        h_6: "৬. পলিসি পরিবর্তন (Changes to This Privacy Policy)",
+        p_6: "ভবিষ্যতে অ্যাপে নতুন কোনো ফিচার যুক্ত হলে প্রয়োজনে আমাদের গোপনীয়তা নীতি হালনাগাদ করা হতে পারে। যেকোনো পরিবর্তন এই পৃষ্ঠাতেই প্রকাশ করা হবে।",
+        h_7: "৭. যোগাযোগ (Contact Us)",
+        p_7: "আমাদের এই প্রাইভেসি পলিসি সম্পর্কে আপনার কোনো প্রশ্ন বা পরামর্শ থাকলে নির্দ্বিধায় যোগাযোগ করতে পারেন:",
+        f_app: "অ্যাপ:",
+        f_dev: "ডেভেলপার:",
+        f_email: "অফিসিয়াল ইমেইল:",
+        copy_rights: "সর্বস্বত্ব সংরক্ষিত।"
+      },
+      en: {
+        brand_prefix: "Byakaran",
+        brand_suffix: "Baz",
+        tagline: "Bangla Grammar Quiz • Classes 6–10",
+        back_home: "← Home Page",
+        badge_policy: "Official Privacy Policy",
+        title_policy: "Privacy Policy",
+        last_updated: "Last Updated: November 21, 2026",
+        sec_intro: "Welcome to ByakaranBaz. This app is a 100% offline educational Bengali grammar quiz application designed for students from Class 6 to Class 10. Protecting your privacy and your family's personal information is our highest priority.",
+        box_title: "Key Highlights at a Glance:",
+        box_1: "No user account or registration is required to use the app.",
+        box_2: "We do not collect any personally identifiable information (name, email, phone number, location).",
+        box_3: "The app contains zero third-party trackers and zero advertisements (100% Ad-Free).",
+        box_4: "The application functions completely offline.",
+        h_1: "1. Information Collection and Use",
+        p_1: "You are not required to provide any personal data while using ByakaranBaz. No personally identifiable user information is collected, stored, or transmitted to any server.",
+        h_2: "2. Local Data Storage",
+        p_2: "The app stores your preferences (light/dark theme, sound/vibration settings) and quiz progress locally on your device. This data never leaves your device and is never shared with third parties.",
+        h_3: "3. Children's Privacy (COPPA Compliance)",
+        p_3: "Our application is completely safe for children and students. We do not knowingly collect any information from children under the age of 13. Parents and guardians can trust our safe environment.",
+        h_4: "4. Advertisements and Tracking",
+        p_4: "ByakaranBaz is 100% ad-free. There are no commercial ads, video ads, or behavioural analytics trackers embedded in the app.",
+        h_5: "5. Device Permissions",
+        p_5: "No sensitive permissions (camera, microphone, contacts, location) are requested. Standard vibration permission is used solely for gentle tactile feedback during quiz interactions.",
+        h_6: "6. Changes to This Privacy Policy",
+        p_6: "Any future updates to our privacy policy will be posted directly on this page.",
+        h_7: "7. Contact Us",
+        p_7: "If you have any questions or feedback regarding this Privacy Policy, please feel free to reach out:",
+        f_app: "App:",
+        f_dev: "Developer:",
+        f_email: "Official Email:",
+        copy_rights: "All rights reserved."
+      }
+    };
+
+    // Theme Toggle
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('sunIcon').classList.remove('hidden');
+        document.getElementById('moonIcon').classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('sunIcon').classList.add('hidden');
+        document.getElementById('moonIcon').classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('byakaranbaz_theme', isDark ? 'dark' : 'light');
+      applyTheme(isDark);
+    }
+
+    const savedTheme = localStorage.getItem('byakaranbaz_theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(savedTheme === 'dark' || (!savedTheme && prefersDark));
+
+    // Language Toggle
+    let currentLang = localStorage.getItem('byakaranbaz_lang') || 'bn';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('byakaranbaz_lang', lang);
+      document.getElementById('langText').innerText = lang === 'bn' ? 'EN' : 'বাং';
+      document.documentElement.setAttribute('lang', lang);
+
+      const t = privacyTranslations[lang] || privacyTranslations.bn;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          el.innerText = t[key];
+        }
+      });
+    }
+
+    function toggleLanguage() {
+      setLanguage(currentLang === 'bn' ? 'en' : 'bn');
+    }
+
+    setLanguage(currentLang);
+  </script>
 
 </body>
 </html>
